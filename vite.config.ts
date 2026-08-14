@@ -9,18 +9,18 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Shortcut',
-        short_name: 'Shortcut',
-        description: 'Minimal starting template ig',
-        theme_color: '#2154f0',
-        background_color: '#cfdce8',
+        name: 'BasketSplit',
+        short_name: 'BasketSplit',
+        description: 'Compare the cost of buying your basket from one or two shops.',
+        theme_color: '#143d35',
+        background_color: '#edf1e8',
         display: 'standalone',
         start_url: '/',
         scope: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
-            sizes: '193x192',
+            sizes: '192x192',
             type: 'image/png',
           },
           {

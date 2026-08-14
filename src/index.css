@@ -1,19 +1,20 @@
 :root {
-  --paper: #cfdce8;
-  --ink: #14202c;
-  --panel: #f3f7fb;
-  --rule: #a9b9cb;
-  --accent: #2154f0;
-  --accent-soft: #d7e0ff;
-  --muted: #5c6f84;
-  --keycap: #fffbff;
-  --keycap-shadow: #8d9eaf;
-  --sans: "Segoe UI Variable", "Segoe UI", "Avenir Next", ui-sans-serif, system-ui,
-    sans-serif;
-  --mono: "Cascadia Code", "SF Mono", ui-monospace, monospace;
+  --leaf-950: #143d35;
+  --leaf-700: #216657;
+  --leaf-100: #d9e9de;
+  --paper: #edf1e8;
+  --surface: #fbfcf8;
+  --ink: #18302b;
+  --muted: #60706b;
+  --rule: #c8d2c9;
+  --sun: #f2b84b;
+  --danger: #9b3e35;
+  --display: "Trebuchet MS", "Avenir Next", sans-serif;
+  --sans: "Segoe UI Variable", "Segoe UI", sans-serif;
+  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 
   color-scheme: light;
-  font: 16px/1.45 var(--sans);
+  font: 16px/1.5 var(--sans);
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
@@ -22,39 +23,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121a24;
-    --ink: #e8eef5;
-    --panel: #1a2430;
-    --rule: #3a4b5e;
-    --accent: #6b8cff;
-    --accent-soft: #243056;
-    --muted: #8b9cb0;
-    --keycap: #f4f7fb;
-    --keycap-shadow: #0b1016;
-    color-scheme: dark;
-  }
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
+html {
+  min-width: 320px;
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
-body {
+body,
+#root {
+  min-height: 100vh;
   margin: 0;
 }
 
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
 h1,
-p {
+h2,
+p,
+dl,
+dd {
   margin: 0;
 }
 
@@ -63,21 +63,27 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 3px solid var(--sun);
   outline-offset: 3px;
 }
 
 .skip {
-  position: absolute;
-  left: 0.75rem;
+  position: fixed;
   top: 0.75rem;
-  z-index: 2;
-  padding: 0.4rem 0.7rem;
-  background: var(--panel);
-  border: 1px solid var(--rule);
-  transform: translateY(-200%);
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--leaf-950);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  transform: translateY(-180%);
 }
 
 .skip:focus {
   transform: none;
+}
+
+::selection {
+  color: var(--surface);
+  background: var(--leaf-700);
 }
