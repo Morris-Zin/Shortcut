@@ -6,4 +6,6 @@ i want the core logic to be importable to other apps also
 ai suggested to start with testing - which is unintutive and not suitable for human
 i rejected the idea and go with the plumbing of dumb ui
 
-ai really like to add tests that are not necessary
+ai really like to add tests that are not needed
+
+ai uses varibles names that are complicated, for example it uses the "line" to represent purchases?
