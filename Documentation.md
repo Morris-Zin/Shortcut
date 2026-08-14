@@ -15,3 +15,14 @@ strucruting of code
 but higher complexity for now, so if we build optimizer make it a standlone indepdent of the react
 
 
+Current strategy for the algorithm 
+
+- first build the naive brute force one - it would find out the answer but it will be slow 
+but it's okay bec we want to compare the brute force answer to our optimied algo to check
+optimized algo correctness
+
+strucuring of folder
+- use domain folder where heart of app lives  contains core busienss logic is speerated from ui frameworks, third party thins etc because i want the algo to be copied into antoher project
+and another TypeScript project and have the algo still work
+
+
