@@ -1,0 +1,83 @@
+:root {
+  --paper: #cfdce8;
+  --ink: #14202c;
+  --panel: #f3f7fb;
+  --rule: #a9b9cb;
+  --accent: #2154f0;
+  --accent-soft: #d7e0ff;
+  --muted: #5c6f84;
+  --keycap: #fffbff;
+  --keycap-shadow: #8d9eaf;
+  --sans: "Segoe UI Variable", "Segoe UI", "Avenir Next", ui-sans-serif, system-ui,
+    sans-serif;
+  --mono: "Cascadia Code", "SF Mono", ui-monospace, monospace;
+
+  color-scheme: light;
+  font: 16px/1.45 var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121a24;
+    --ink: #e8eef5;
+    --panel: #1a2430;
+    --rule: #3a4b5e;
+    --accent: #6b8cff;
+    --accent-soft: #243056;
+    --muted: #8b9cb0;
+    --keycap: #f4f7fb;
+    --keycap-shadow: #0b1016;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 2;
+  padding: 0.4rem 0.7rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
