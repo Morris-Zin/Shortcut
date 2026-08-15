@@ -1,16 +1,28 @@
-import { useReducer } from 'react'
+import { useMemo, useReducer } from 'react'
 import './App.css'
 import { appReducer } from './application/appReducer'
 import { createEmptyState } from './application/appState'
 import { sampleState } from './application/sampleData'
+import { toBasket } from './application/toBasket'
 import { BasketEditor } from './components/BasketEditor'
 import { Recommendation } from './components/Recommendation'
 import { ShopEditor } from './components/ShopEditor'
+import { optimiseBasketBruteForce } from './domain/bruteForceOptimiser'
 
 const newId = (prefix: 'shop' | 'item') => `${prefix}-${crypto.randomUUID()}`
 
 export default function App() {
   const [state, dispatch] = useReducer(appReducer, undefined, createEmptyState)
+  const calculation = useMemo(() => {
+    const checked = toBasket(state)
+
+    return {
+      ...checked,
+      result: checked.basket
+        ? optimiseBasketBruteForce(checked.basket)
+        : null,
+    }
+  }, [state])
 
   return (
     <div className="app-shell">
@@ -103,7 +115,11 @@ export default function App() {
             />
           </div>
 
-          <Recommendation shopCount={state.shops.length} itemCount={state.items.length} />
+          <Recommendation
+            basket={calculation.basket}
+            errors={calculation.errors}
+            result={calculation.result}
+          />
         </div>
       </main>
 

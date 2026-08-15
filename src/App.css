@@ -244,6 +244,7 @@ h2 {
 
 .money-input input:focus {
   box-shadow: none;
+  outline: none;
 }
 
 .icon-button {
@@ -297,12 +298,15 @@ button:disabled {
 }
 
 .money-input > span {
+  flex: 0 0 auto;
   padding-left: 0.65rem;
   color: var(--muted);
   font: 700 0.73rem/1 var(--mono);
 }
 
 .money-input input {
+  flex: 1 1 auto;
+  width: 0;
   border: 0;
   border-radius: 0;
 }
@@ -405,13 +409,25 @@ button:disabled {
   margin-top: 0.35rem;
 }
 
-.result-placeholder {
+.result-message {
   display: flex;
   gap: 0.85rem;
   margin-block: 1.35rem;
   padding: 1rem;
   border-radius: 0.75rem;
   background: var(--paper);
+}
+
+.result-success {
+  background: var(--leaf-100);
+}
+
+.result-warning {
+  background: #fae8e5;
+}
+
+.result-warning .placeholder-mark {
+  background: var(--danger);
 }
 
 .placeholder-mark {
@@ -426,14 +442,72 @@ button:disabled {
   font-size: 1.2rem;
 }
 
-.result-placeholder p {
+.result-message p {
   margin-top: 0.25rem;
   color: var(--muted);
   font-size: 0.88rem;
 }
 
+.input-errors {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.55rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.plan-breakdown {
+  display: grid;
+  gap: 1rem;
+}
+
+.shop-plan {
+  padding: 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.7rem;
+  background: white;
+}
+
+.shop-plan h3 {
+  margin: 0 0 0.7rem;
+  color: var(--leaf-950);
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.shop-plan ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shop-plan li {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.shop-plan li > span {
+  display: grid;
+}
+
+.shop-plan small {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.shop-plan b {
+  flex: 0 0 auto;
+  font: 700 0.8rem/1.4 var(--mono);
+}
+
 .receipt-lines {
   display: grid;
+  margin-top: 0.1rem;
 }
 
 .receipt-lines > div {
@@ -531,6 +605,10 @@ button:disabled {
   .quantity-field {
     width: 100%;
     flex-basis: auto;
+  }
+
+  .item-basics {
+    align-items: stretch;
   }
 
   .site-footer {
