@@ -1,17 +1,15 @@
 :root {
-  --leaf-950: #143d35;
-  --leaf-700: #216657;
-  --leaf-100: #d9e9de;
-  --paper: #edf1e8;
-  --surface: #fbfcf8;
-  --ink: #18302b;
-  --muted: #60706b;
-  --rule: #c8d2c9;
-  --sun: #f2b84b;
-  --danger: #9b3e35;
-  --display: "Trebuchet MS", "Avenir Next", sans-serif;
+  --brand: #ee4d2d;
+  --brand-dark: #d73211;
+  --price: #ee4d2d;
+  --success: #26aa99;
+  --paper: #f5f5f5;
+  --surface: #ffffff;
+  --ink: #222222;
+  --muted: #757575;
+  --rule: #e8e8e8;
+  --danger: #ee4d2d;
   --sans: "Segoe UI Variable", "Segoe UI", sans-serif;
-  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
 
   color-scheme: light;
   font: 16px/1.5 var(--sans);
@@ -63,8 +61,8 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid var(--sun);
-  outline-offset: 3px;
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
 }
 
 .skip {
@@ -73,8 +71,7 @@ a {
   left: 0.75rem;
   z-index: 20;
   padding: 0.6rem 0.85rem;
-  border: 1px solid var(--leaf-950);
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   background: var(--surface);
   transform: translateY(-180%);
 }
@@ -84,6 +81,15 @@ a {
 }
 
 ::selection {
-  color: var(--surface);
-  background: var(--leaf-700);
+  color: #fff;
+  background: var(--brand);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

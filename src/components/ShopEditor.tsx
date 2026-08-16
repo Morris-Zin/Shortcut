@@ -21,7 +21,7 @@ export function ShopEditor({
     <section className="panel setup-panel" aria-labelledby="shops-title">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Step 1</p>
+          <p className="eyebrow">Mall</p>
           <h2 id="shops-title">Where could you shop?</h2>
         </div>
         <button className="button button-secondary" type="button" onClick={onAddShop}>
@@ -33,15 +33,15 @@ export function ShopEditor({
         {shops.map((shop, index) => (
           <div className="shop-row" key={shop.id}>
             <span className="shop-number" aria-hidden="true">
-              {index + 1}
+              {(shop.name.trim()[0] || String(index + 1)).toUpperCase()}
             </span>
             <label className="field grow-field" htmlFor={`shop-${shop.id}`}>
-              <span>Shop name</span>
+              <span className="visually-hidden">Shop name</span>
               <input
                 id={`shop-${shop.id}`}
                 type="text"
                 value={shop.name}
-                placeholder={index === 0 ? 'e.g. Campus Grocer' : 'Another shop'}
+                placeholder={index === 0 ? 'Store name' : 'Another store'}
                 onChange={(event) => onRenameShop(shop.id, event.target.value)}
               />
             </label>
@@ -61,7 +61,7 @@ export function ShopEditor({
       <label className="stop-cost" htmlFor="extra-stop-cost">
         <span className="stop-cost-copy">
           <strong>Cost of one extra stop</strong>
-          <small>Your estimate for extra travel, parking and time.</small>
+          <small>Shipping / extra travel to a second store.</small>
         </span>
         <span className="money-input">
           <span aria-hidden="true">RM</span>

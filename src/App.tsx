@@ -7,6 +7,7 @@ import { toBasket } from './application/toBasket'
 import { BasketEditor } from './components/BasketEditor'
 import { Recommendation } from './components/Recommendation'
 import { ShopEditor } from './components/ShopEditor'
+import { formatAmount } from './domain/money'
 import { optimiseBasket } from './domain/optimiseBasket'
 import {
   loadSavedAppState,
@@ -43,6 +44,7 @@ export default function App() {
     initial.warning,
   )
   const [state, dispatch] = useReducer(appReducer, initial.state)
+  const [cartQuery, setCartQuery] = useState('')
 
   useEffect(() => {
     try {
@@ -72,10 +74,19 @@ export default function App() {
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="BasketSplit home">
           <span className="wordmark-mark" aria-hidden="true">
-           A/P
+            B
           </span>
           <span>BasketSplit</span>
         </a>
+        <label className="header-search">
+          <span className="visually-hidden">Search in cart</span>
+          <input
+            type="search"
+            value={cartQuery}
+            placeholder="Search in cart"
+            onChange={(event) => setCartQuery(event.target.value)}
+          />
+        </label>
         <div className="header-actions">
           <button
             className="button button-quiet"
@@ -98,11 +109,8 @@ export default function App() {
 
       <main id="main" className="page-shell">
         <section className="intro" aria-labelledby="page-title">
-          <p className="intro-kicker">A smarter shopping</p>
+          <p className="intro-kicker">Shopping Cart ({state.items.length})</p>
           <h1 id="page-title">Know when a second shop is worth the stop.</h1>
-          <p>
-            Add your basket, enter the prices you know, and account for the real cost of going somewhere else.
-          </p>
         </section>
 
         {storageWarning ? (
@@ -136,6 +144,7 @@ export default function App() {
             <BasketEditor
               items={state.items}
               shops={state.shops}
+              query={cartQuery}
               onAddItem={() =>
                 dispatch({
                   type: 'item/added',
@@ -174,6 +183,34 @@ export default function App() {
         <span>BasketSplit</span>
         <span>Prices stay on this device.</span>
       </footer>
+
+      <CheckoutBar result={calculation.result} />
+    </div>
+  )
+}
+
+function CheckoutBar({
+  result,
+}: {
+  result: ReturnType<typeof optimiseBasket> | null
+}) {
+  const success = result?.status === 'success' ? result : null
+  const saved = success?.savingsVersusSingleShop ?? 0
+
+  return (
+    <div className="checkout-bar">
+      <div className="checkout-bar-copy">
+        {saved > 0 ? <small>Saved {formatAmount(saved)}</small> : null}
+        <span>
+          Total
+          <strong>
+            {success ? formatAmount(success.bestPlan.total) : 'RM 0.00'}
+          </strong>
+        </span>
+      </div>
+      <a className="checkout-bar-button" href="#recommendation-title">
+        Check Out
+      </a>
     </div>
   )
 }

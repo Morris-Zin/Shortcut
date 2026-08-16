@@ -20,7 +20,7 @@ export function Recommendation({
       aria-live="polite"
     >
       <div className="receipt-topline" aria-hidden="true" />
-      <p className="eyebrow">Step 3</p>
+      <p className="eyebrow">Check Out</p>
       <h2 id="recommendation-title">Your cheapest plan</h2>
 
       {!basket || !result ? (
@@ -30,13 +30,6 @@ export function Recommendation({
       ) : (
         <SuccessMessage basket={basket} result={result} />
       )}
-
-      <div className="receipt-note">
-        <span aria-hidden="true">◎</span>
-        <p>
-          Calculated by checking every valid item-to-shop assignment using at most two shops.
-        </p>
-      </div>
     </aside>
   )
 }

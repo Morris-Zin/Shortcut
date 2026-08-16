@@ -17,20 +17,30 @@ export function PlanBreakdown({ basket, plan }: PlanBreakdownProps) {
         const purchases = plan.purchases.filter(
           (purchase) => purchase.shopId === shopId,
         )
+        const shopName = shop?.name ?? 'Unknown shop'
 
         return (
           <section className="shop-plan" key={shopId}>
-            <h3>{shop?.name ?? 'Unknown shop'}</h3>
+            <h3>
+              <span className="shop-plan-avatar" aria-hidden="true">
+                {shopName[0]?.toUpperCase()}
+              </span>
+              {shopName}
+            </h3>
             <ul>
               {purchases.map((purchase) => {
                 const item = itemsById.get(purchase.itemId)
+                const itemName = item?.name ?? 'Unknown item'
 
                 return (
                   <li key={purchase.itemId}>
+                    <span className="plan-item-thumb" aria-hidden="true">
+                      {itemName[0]?.toUpperCase()}
+                    </span>
                     <span>
-                      <strong>{item?.name ?? 'Unknown item'}</strong>
+                      <strong>{itemName}</strong>
                       <small>
-                        {purchase.quantity} × {formatAmount(purchase.unitPrice)}
+                        x{purchase.quantity} · {formatAmount(purchase.unitPrice)}
                       </small>
                     </span>
                     <b>{formatAmount(purchase.total)}</b>
@@ -44,11 +54,11 @@ export function PlanBreakdown({ basket, plan }: PlanBreakdownProps) {
 
       <dl className="receipt-lines" aria-label="Plan total">
         <div>
-          <dt>Items</dt>
+          <dt>Merchandise Subtotal</dt>
           <dd>{formatAmount(plan.itemSubtotal)}</dd>
         </div>
         <div>
-          <dt>Extra stop</dt>
+          <dt>Shipping (extra stop)</dt>
           <dd>{formatAmount(plan.extraStopCost)}</dd>
         </div>
         <div className="receipt-total">
