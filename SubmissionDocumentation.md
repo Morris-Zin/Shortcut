@@ -73,6 +73,8 @@ I used AI to discuss structure, draft code, find UI problems, and suggest edge c
 
 AI suggested Supabase, but I rejected it because local storage solves the current need. I also kept the domain folder because I wanted the optimiser independent from React. Later, I removed some extra tests and defensive storage validation because they were harder to maintain than the small feature they protected.
 
+AI initially suggested starting with tests and sometimes used names that did not make sense to me. I chose to build the UI plumbing first and renamed concepts so I could clearly explain the code myself.
+
 One AI suggestion that helped was moving the growing CSS into Tailwind classes beside each component. AI also helped trace a mobile overflow bug, but I checked the element widths myself and reran the app at 320 px after changing it.
 
 I treated AI output as a draft, not proof. I read and simplified the code, compared both algorithms, ran the tests and build, and checked the deployed app in a real browser.
