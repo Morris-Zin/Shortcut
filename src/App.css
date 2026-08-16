@@ -124,6 +124,16 @@
   font-size: clamp(1rem, 2vw, 1.15rem);
 }
 
+.storage-warning {
+  margin: -1rem 0 1.5rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--sun);
+  border-radius: 0.65rem;
+  color: var(--leaf-950);
+  background: #fff7df;
+  font-size: 0.9rem;
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);

@@ -174,6 +174,8 @@ function pickBest(plans: readonly Plan[], shops: readonly Shop[]): Plan | null {
   return bestPlan
 }
 
+// Same-cost plans: fewer shops, then earlier list position, then shop id.
+// That keeps a one-stop trip when a second stop does not actually save money.
 function isBetter(candidate: Plan, current: Plan, shops: readonly Shop[]): boolean {
   if (candidate.total !== current.total) {
     return candidate.total < current.total

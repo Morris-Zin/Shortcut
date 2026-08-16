@@ -181,6 +181,8 @@ function createPlan(
   }
 }
 
+// Same-cost plans: fewer shops, then earlier list position, then shop id.
+// That keeps a one-stop trip when a second stop does not actually save money.
 function isBetterPlan(
   candidate: Plan,
   current: Plan,

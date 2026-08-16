@@ -1,4 +1,4 @@
-import { useMemo, useReducer } from 'react'
+import { useEffect, useMemo, useReducer, useState } from 'react'
 import './App.css'
 import { appReducer } from './application/appReducer'
 import { createEmptyState } from './application/appState'
@@ -8,11 +8,50 @@ import { BasketEditor } from './components/BasketEditor'
 import { Recommendation } from './components/Recommendation'
 import { ShopEditor } from './components/ShopEditor'
 import { optimiseBasket } from './domain/optimiseBasket'
+import {
+  loadSavedAppState,
+  saveAppState,
+} from './infrastructure/storage'
+
+type StorageWarning = 'invalid' | 'unavailable' | null
+
+const loadInitialState = () => {
+  try {
+    const saved = loadSavedAppState(window.localStorage)
+
+    if (saved.status === 'loaded') {
+      return { state: saved.state, warning: null as StorageWarning }
+    }
+
+    return {
+      state: createEmptyState(),
+      warning: saved.status === 'invalid' ? ('invalid' as const) : null,
+    }
+  } catch {
+    return {
+      state: createEmptyState(),
+      warning: 'unavailable' as const,
+    }
+  }
+}
 
 const newId = (prefix: 'shop' | 'item') => `${prefix}-${crypto.randomUUID()}`
 
 export default function App() {
-  const [state, dispatch] = useReducer(appReducer, undefined, createEmptyState)
+  const [initial] = useState(loadInitialState)
+  const [storageWarning, setStorageWarning] = useState<StorageWarning>(
+    initial.warning,
+  )
+  const [state, dispatch] = useReducer(appReducer, initial.state)
+
+  useEffect(() => {
+    try {
+      saveAppState(window.localStorage, state)
+    } catch {
+      setStorageWarning('unavailable')
+    }
+  }, [state])
+
   const calculation = useMemo(() => {
     const checked = toBasket(state)
 
@@ -65,6 +104,14 @@ export default function App() {
             Add your basket, enter the prices you know, and account for the real cost of going somewhere else.
           </p>
         </section>
+
+        {storageWarning ? (
+          <p className="storage-warning" role="status">
+            {storageWarning === 'invalid'
+              ? 'Your saved basket could not be restored, so BasketSplit started fresh.'
+              : 'This browser cannot save your basket. You can still use BasketSplit for this session.'}
+          </p>
+        ) : null}
 
         <div className="workspace">
           <div className="editor-column">
