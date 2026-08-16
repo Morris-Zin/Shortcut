@@ -13,3 +13,4 @@ ai uses varibles names that are complicated, for example it uses the "line" to r
 
 App.css index.css grows a ton, ai puts all the sytles there as for human it's not maintable
 
+archi decision - use tailwind css instead 
