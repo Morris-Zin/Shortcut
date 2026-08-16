@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useReducer, useState } from 'react'
-import './App.css'
 import { appReducer } from './application/appReducer'
 import { createEmptyState } from './application/appState'
 import { sampleState } from './application/sampleData'
@@ -7,7 +6,6 @@ import { toBasket } from './application/toBasket'
 import { BasketEditor } from './components/BasketEditor'
 import { Recommendation } from './components/Recommendation'
 import { ShopEditor } from './components/ShopEditor'
-import { formatAmount } from './domain/money'
 import { optimiseBasket } from './domain/optimiseBasket'
 import {
   loadSavedAppState,
@@ -44,7 +42,6 @@ export default function App() {
     initial.warning,
   )
   const [state, dispatch] = useReducer(appReducer, initial.state)
-  const [cartQuery, setCartQuery] = useState('')
 
   useEffect(() => {
     try {
@@ -66,37 +63,38 @@ export default function App() {
   }, [state])
 
   return (
-    <div className="app-shell">
-      <a className="skip" href="#main">
+    <div className="min-h-screen bg-paper">
+      <a
+        className="fixed top-3 left-3 z-20 -translate-y-[180%] rounded bg-surface px-[0.85rem] py-[0.6rem] focus:translate-y-0"
+        href="#main"
+      >
         Skip to basket setup
       </a>
 
-      <header className="site-header">
-        <a className="wordmark" href="/" aria-label="BasketSplit home">
-          <span className="wordmark-mark" aria-hidden="true">
+      <header className="sticky top-0 z-[8] flex items-center justify-between gap-3 bg-brand px-page py-[0.55rem] pt-[max(0.55rem,env(safe-area-inset-top))] text-white shadow-[0_1px_4px_rgb(0_0_0_/_0.12)] max-[640px]:flex-wrap [@media(display-mode:standalone)]:pt-[max(1.1rem,env(safe-area-inset-top))]">
+        <a
+          className="inline-flex items-center gap-[0.45rem] text-[1.15rem] font-extrabold tracking-[-0.03em] text-white no-underline"
+          href="/"
+          aria-label="BasketSplit home"
+        >
+          <span
+            className="grid size-[1.7rem] place-items-center rounded-[0.35rem] bg-white text-[0.78rem] font-extrabold text-brand"
+            aria-hidden="true"
+          >
             B
           </span>
           <span>BasketSplit</span>
         </a>
-        <label className="header-search">
-          <span className="visually-hidden">Search in cart</span>
-          <input
-            type="search"
-            value={cartQuery}
-            placeholder="Search in cart"
-            onChange={(event) => setCartQuery(event.target.value)}
-          />
-        </label>
-        <div className="header-actions">
+        <div className="flex gap-1">
           <button
-            className="button button-quiet"
+            className="inline-flex min-h-9 items-center justify-center rounded-sm bg-white/14 px-[0.9rem] py-[0.45rem] text-[0.88rem] font-bold text-white hover:bg-white/24 motion-safe:transition-colors max-[640px]:min-h-[2.1rem] max-[640px]:px-[0.65rem]"
             type="button"
             onClick={() => dispatch({ type: 'state/replaced', state: sampleState })}
           >
             Load sample
           </button>
           <button
-            className="button button-quiet"
+            className="inline-flex min-h-9 items-center justify-center rounded-sm bg-white/14 px-[0.9rem] py-[0.45rem] text-[0.88rem] font-bold text-white hover:bg-white/24 motion-safe:transition-colors max-[640px]:min-h-[2.1rem] max-[640px]:px-[0.65rem]"
             type="button"
             onClick={() =>
               dispatch({ type: 'state/replaced', state: createEmptyState() })
@@ -107,22 +105,29 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main" className="page-shell">
-        <section className="intro" aria-labelledby="page-title">
-          <p className="intro-kicker">Shopping Cart ({state.items.length})</p>
-          <h1 id="page-title">Know when a second shop is worth the stop.</h1>
+      <main
+        id="main"
+        className="mx-auto w-[min(100%-2rem,72rem)] py-[0.9rem] pb-8 max-[560px]:w-[min(100%-1.1rem,72rem)]"
+      >
+        <section className="mb-[0.9rem] grid gap-[0.15rem]" aria-labelledby="page-title">
+          <p className="text-[0.78rem] font-extrabold text-brand">
+            Shopping Cart ({state.items.length})
+          </p>
+          <h1 className="text-[1.05rem] leading-[1.35] font-semibold tracking-normal text-ink" id="page-title">
+            Know when a second shop is worth the stop.
+          </h1>
         </section>
 
         {storageWarning ? (
-          <p className="storage-warning" role="status">
+          <p className="mb-[0.9rem] rounded-sm bg-peach px-4 py-3 text-[0.88rem] text-brand-dark" role="status">
             {storageWarning === 'invalid'
               ? 'Your saved basket could not be restored, so BasketSplit started fresh.'
               : 'This browser cannot save your basket. You can still use BasketSplit for this session.'}
           </p>
         ) : null}
 
-        <div className="workspace">
-          <div className="editor-column">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(17rem,22.5rem)] items-start gap-3 max-[850px]:grid-cols-1">
+          <div className="grid gap-3">
             <ShopEditor
               shops={state.shops}
               extraStopCost={state.extraStopCost}
@@ -144,7 +149,6 @@ export default function App() {
             <BasketEditor
               items={state.items}
               shops={state.shops}
-              query={cartQuery}
               onAddItem={() =>
                 dispatch({
                   type: 'item/added',
@@ -179,38 +183,10 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="site-footer">
+      <footer className="flex items-center justify-between gap-3 bg-transparent px-page py-4 text-xs text-muted max-[560px]:flex-col">
         <span>BasketSplit</span>
         <span>Prices stay on this device.</span>
       </footer>
-
-      <CheckoutBar result={calculation.result} />
-    </div>
-  )
-}
-
-function CheckoutBar({
-  result,
-}: {
-  result: ReturnType<typeof optimiseBasket> | null
-}) {
-  const success = result?.status === 'success' ? result : null
-  const saved = success?.savingsVersusSingleShop ?? 0
-
-  return (
-    <div className="checkout-bar">
-      <div className="checkout-bar-copy">
-        {saved > 0 ? <small>Saved {formatAmount(saved)}</small> : null}
-        <span>
-          Total
-          <strong>
-            {success ? formatAmount(success.bestPlan.total) : 'RM 0.00'}
-          </strong>
-        </span>
-      </div>
-      <a className="checkout-bar-button" href="#recommendation-title">
-        Check Out
-      </a>
     </div>
   )
 }

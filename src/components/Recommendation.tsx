@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { formatAmount } from '../domain/money'
 import type { Basket, Result } from '../domain/types'
 import { PlanBreakdown } from './PlanBreakdown'
@@ -15,13 +16,15 @@ export function Recommendation({
 }: RecommendationProps) {
   return (
     <aside
-      className="recommendation"
+      className="sticky top-[4.1rem] overflow-hidden rounded-sm bg-surface px-[1.05rem] pt-4 pb-[1.1rem] shadow-[0_1px_1px_rgb(0_0_0_/_0.04)] max-[850px]:static"
       aria-labelledby="recommendation-title"
       aria-live="polite"
     >
-      <div className="receipt-topline" aria-hidden="true" />
-      <p className="eyebrow">Check Out</p>
-      <h2 id="recommendation-title">Your cheapest plan</h2>
+      <div className="-mx-[1.05rem] -mt-4 mb-[0.85rem] h-[0.22rem] bg-brand" aria-hidden="true" />
+      <p className="text-[0.78rem] font-extrabold text-brand">Recommendation</p>
+      <h2 className="mt-[0.15rem] text-[1.05rem] leading-tight" id="recommendation-title">
+        Your cheapest plan
+      </h2>
 
       {!basket || !result ? (
         <InputMessage errors={errors} />
@@ -34,23 +37,55 @@ export function Recommendation({
   )
 }
 
-function InputMessage({ errors }: { errors: readonly string[] }) {
+function ResultBanner({
+  mark,
+  markClassName,
+  boxClassName,
+  title,
+  children,
+}: {
+  mark: string
+  markClassName: string
+  boxClassName: string
+  title: string
+  children: ReactNode
+}) {
   return (
-    <div className="result-message result-input">
-      <span className="placeholder-mark" aria-hidden="true">→</span>
+    <div className={`my-[0.85rem] flex gap-3 rounded-sm p-3 ${boxClassName}`}>
+      <span
+        className={`grid size-[1.7rem] shrink-0 place-items-center rounded-full text-[0.9rem] text-white ${markClassName}`}
+        aria-hidden="true"
+      >
+        {mark}
+      </span>
       <div>
-        <strong>Finish setting up your basket</strong>
-        {errors.length > 0 ? (
-          <ul className="input-errors">
-            {errors.slice(0, 4).map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Add your shops, items and prices to see a plan.</p>
-        )}
+        <strong>{title}</strong>
+        {children}
       </div>
     </div>
+  )
+}
+
+function InputMessage({ errors }: { errors: readonly string[] }) {
+  return (
+    <ResultBanner
+      mark="→"
+      markClassName="bg-brand"
+      boxClassName="bg-paper"
+      title="Finish setting up your basket"
+    >
+      {errors.length > 0 ? (
+        <ul className="mt-[0.45rem] grid list-disc gap-[0.2rem] pl-[1.05rem] text-[0.8rem] text-muted">
+          {errors.slice(0, 4).map((error) => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-[0.2rem] text-[0.84rem] text-muted">
+          Add your shops, items and prices to see a plan.
+        </p>
+      )}
+    </ResultBanner>
   )
 }
 
@@ -74,13 +109,14 @@ function InfeasibleMessage({
   }
 
   return (
-    <div className="result-message result-warning">
-      <span className="placeholder-mark" aria-hidden="true">!</span>
-      <div>
-        <strong>No valid plan yet</strong>
-        <p>{explanation}</p>
-      </div>
-    </div>
+    <ResultBanner
+      mark="!"
+      markClassName="bg-danger"
+      boxClassName="bg-peach text-brand-dark"
+      title="No valid plan yet"
+    >
+      <p className="mt-[0.2rem] text-[0.84rem] text-muted">{explanation}</p>
+    </ResultBanner>
   )
 }
 
@@ -112,15 +148,14 @@ function SuccessMessage({
 
   return (
     <>
-      <div className="result-message result-success">
-        <span className="placeholder-mark" aria-hidden="true">✓</span>
-        <div>
-          <strong>
-            {isSplit ? `Split between ${shopNames.join(' and ')}` : `Shop at ${shopNames[0]}`}
-          </strong>
-          <p>{explanation}</p>
-        </div>
-      </div>
+      <ResultBanner
+        mark="✓"
+        markClassName="bg-success"
+        boxClassName="bg-success-soft text-success-ink"
+        title={isSplit ? `Split between ${shopNames.join(' and ')}` : `Shop at ${shopNames[0]}`}
+      >
+        <p className="mt-[0.2rem] text-[0.84rem] text-muted">{explanation}</p>
+      </ResultBanner>
       <PlanBreakdown basket={basket} plan={plan} />
     </>
   )

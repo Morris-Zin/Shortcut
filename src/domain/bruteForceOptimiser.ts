@@ -5,8 +5,6 @@ import type {
   Purchase,
   Result,
   Shop,
-  ShopId,
-  ShopIds,
 } from './types'
 
 interface SearchResult {
@@ -82,7 +80,7 @@ function searchAssignments(
   shops: readonly Shop[],
   itemIndex: number,
   purchases: readonly Purchase[],
-  visitedShopIds: ReadonlySet<ShopId>,
+  visitedShopIds: ReadonlySet<string>,
   itemSubtotal: Amount,
   result: SearchResult,
 ): void {
@@ -153,27 +151,21 @@ function createPlan(
   input: Basket,
   shops: readonly Shop[],
   purchases: readonly Purchase[],
-  visitedShopIds: ReadonlySet<ShopId>,
+  visitedShopIds: ReadonlySet<string>,
   itemSubtotal: Amount,
 ): Plan | null {
   const orderedShopIds = shops
     .filter((shop) => visitedShopIds.has(shop.id))
     .map((shop) => shop.id)
 
-  let visitedShops: ShopIds
-
-  if (orderedShopIds.length === 1) {
-    visitedShops = [orderedShopIds[0]!]
-  } else if (orderedShopIds.length === 2) {
-    visitedShops = [orderedShopIds[0]!, orderedShopIds[1]!]
-  } else {
+  if (orderedShopIds.length === 0 || orderedShopIds.length > 2) {
     return null
   }
 
-  const extraStopCost = visitedShops.length === 2 ? input.extraStopCost : 0
+  const extraStopCost = orderedShopIds.length === 2 ? input.extraStopCost : 0
 
   return {
-    visitedShopIds: visitedShops,
+    visitedShopIds: orderedShopIds,
     purchases: [...purchases],
     itemSubtotal,
     extraStopCost,

@@ -1,23 +1,20 @@
-export type ShopId = string
-export type ItemId = string
-
 /** A non-negative integer stored in the currency's smallest unit. */
 export type Amount = number
 
 export interface Shop {
-  id: ShopId
+  id: string
   name: string
   order: number
 }
 
 export interface Item {
-  id: ItemId
+  id: string
   name: string
   quantity: number
 }
 
 export type Prices = Readonly<
-  Record<ItemId, Readonly<Record<ShopId, Amount | null>>>
+  Record<string, Readonly<Record<string, Amount | null>>>
 >
 
 export interface Basket {
@@ -28,19 +25,15 @@ export interface Basket {
 }
 
 export interface Purchase {
-  itemId: ItemId
-  shopId: ShopId
+  itemId: string
+  shopId: string
   quantity: number
   unitPrice: Amount
   total: Amount
 }
 
-export type ShopIds =
-  | readonly [ShopId]
-  | readonly [ShopId, ShopId]
-
 export interface Plan {
-  visitedShopIds: ShopIds
+  visitedShopIds: readonly string[]
   purchases: readonly Purchase[]
   itemSubtotal: Amount
   extraStopCost: Amount
@@ -57,7 +50,7 @@ export type Result =
   | {
       status: 'infeasible'
       reason: 'unavailable-items'
-      unavailableItemIds: readonly ItemId[]
+      unavailableItemIds: readonly string[]
     }
   | {
       status: 'infeasible'

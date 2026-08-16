@@ -4,7 +4,6 @@ import type {
   Purchase,
   Result,
   Shop,
-  ShopIds,
 } from './types'
 
 /**
@@ -141,20 +140,14 @@ function makePlan(basket: Basket, shops: readonly Shop[]): Plan | null {
     .filter((shop) => visitedShopIds.has(shop.id))
     .map((shop) => shop.id)
 
-  let visitedShops: ShopIds
-
-  if (orderedShopIds.length === 1) {
-    visitedShops = [orderedShopIds[0]!]
-  } else if (orderedShopIds.length === 2) {
-    visitedShops = [orderedShopIds[0]!, orderedShopIds[1]!]
-  } else {
+  if (orderedShopIds.length === 0 || orderedShopIds.length > 2) {
     return null
   }
 
-  const extraStopCost = visitedShops.length === 2 ? basket.extraStopCost : 0
+  const extraStopCost = orderedShopIds.length === 2 ? basket.extraStopCost : 0
 
   return {
-    visitedShopIds: visitedShops,
+    visitedShopIds: orderedShopIds,
     purchases,
     itemSubtotal,
     extraStopCost,

@@ -1,5 +1,7 @@
 import type { Amount } from './types'
 
+// "12.50" → 1250 → "RM 12.50"
+
 export function parseAmount(value: string): Amount | null {
   const match = /^(\d+)(?:\.(\d{1,2}))?$/.exec(value.trim())
 
