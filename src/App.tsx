@@ -7,7 +7,7 @@ import { toBasket } from './application/toBasket'
 import { BasketEditor } from './components/BasketEditor'
 import { Recommendation } from './components/Recommendation'
 import { ShopEditor } from './components/ShopEditor'
-import { optimiseBasketBruteForce } from './domain/bruteForceOptimiser'
+import { optimiseBasket } from './domain/optimiseBasket'
 
 const newId = (prefix: 'shop' | 'item') => `${prefix}-${crypto.randomUUID()}`
 
@@ -19,7 +19,7 @@ export default function App() {
     return {
       ...checked,
       result: checked.basket
-        ? optimiseBasketBruteForce(checked.basket)
+        ? optimiseBasket(checked.basket)
         : null,
     }
   }, [state])

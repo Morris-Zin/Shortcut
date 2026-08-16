@@ -18,11 +18,9 @@ interface SearchResult {
  * This is brute force can be modeled as a decision tree
  *
  * Each basket item is a level. At that level we try every shop that actually
- * sells the item. When every item has a shop, we are at a leaf — one full plan.
+ * sells the item. When every item has a shop, we are at a leaf node of one full plan.
  * We walk every leaf we can reach and keep the cheapest one.
- *
- * We do not always visit every possible leaf. If a shop has no price, skip it.
- * If a path would use a third shop, cut it (this app only allows two stops).
+
  *
  *                         START
  *              _____________|_____________
